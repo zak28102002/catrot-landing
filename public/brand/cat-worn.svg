@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360" role="img" aria-label="The same CATROT cat looking tired, dull and unkempt">
+  <defs>
+    <clipPath id="wornHead"><circle cx="180" cy="200" r="126"/></clipPath>
+  </defs>
+
+  <!-- dust motes -->
+  <g fill="#C3B2A2" opacity="0.75">
+    <circle cx="300" cy="86" r="6"/>
+    <circle cx="318" cy="112" r="4"/>
+    <circle cx="58" cy="104" r="5"/>
+  </g>
+
+  <!-- ears, drooping outward -->
+  <g stroke="#6B5847" stroke-width="11" stroke-linejoin="round">
+    <path d="M 60 176 C 44 108 46 66 72 56 C 98 46 138 62 168 82 Z" fill="#D9A970"/>
+    <path d="M 300 176 C 316 108 314 66 288 56 C 262 46 222 62 192 82 Z" fill="#D9A970"/>
+  </g>
+  <g fill="#D8AFB6">
+    <path d="M 84 152 C 74 108 76 82 92 76 C 108 70 130 82 148 94 Z"/>
+    <path d="M 276 152 C 286 108 284 82 268 76 C 252 70 230 82 212 94 Z"/>
+  </g>
+
+  <!-- head, dulled -->
+  <circle cx="180" cy="200" r="126" fill="#F1EAE0"/>
+  <g clip-path="url(#wornHead)">
+    <g fill="#D9A970">
+      <ellipse cx="294" cy="186" rx="106" ry="148" transform="rotate(6 294 186)"/>
+      <ellipse cx="142" cy="116" rx="44" ry="27" transform="rotate(-16 142 116)"/>
+    </g>
+    <!-- grubby smudges -->
+    <g fill="#B3A290" opacity="0.55">
+      <ellipse cx="96" cy="278" rx="26" ry="14" transform="rotate(-18 96 278)"/>
+      <ellipse cx="248" cy="296" rx="20" ry="11" transform="rotate(12 248 296)"/>
+      <ellipse cx="286" cy="150" rx="15" ry="9" transform="rotate(-24 286 150)"/>
+    </g>
+  </g>
+  <circle cx="180" cy="200" r="126" fill="none" stroke="#6B5847" stroke-width="11"/>
+
+  <!-- whiskers, sagging -->
+  <g stroke="#6B5847" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M 28 174 q 36 6 68 22"/>
+    <path d="M 30 216 q 34 10 62 26"/>
+    <path d="M 332 174 q -36 6 -68 22"/>
+    <path d="M 330 216 q -34 10 -62 26"/>
+  </g>
+
+  <!-- half-closed, tired eyes -->
+  <g fill="#4A3A2C">
+    <path d="M 102 190 q 28 26 56 0 q -4 34 -28 34 q -24 0 -28 -34 z"/>
+    <path d="M 202 190 q 28 26 56 0 q -4 34 -28 34 q -24 0 -28 -34 z"/>
+  </g>
+  <g stroke="#6B5847" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M 100 186 q 30 22 60 0"/>
+    <path d="M 200 186 q 30 22 60 0"/>
+    <!-- under-eye shadows -->
+    <path d="M 108 236 q 22 12 44 0" stroke="#C0AB98" stroke-width="7"/>
+    <path d="M 208 236 q 22 12 44 0" stroke="#C0AB98" stroke-width="7"/>
+  </g>
+
+  <!-- muzzle, flat and weary -->
+  <path d="M 180 254 q -20 0 -22 -13 q 8 -8 22 -8 q 14 0 22 8 q -2 13 -22 13 z" fill="#D8AFB6" stroke="#6B5847" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M 144 276 q 18 -14 36 -2 q 18 12 36 -2" fill="none" stroke="#6B5847" stroke-width="10" stroke-linecap="round"/>
+</svg>

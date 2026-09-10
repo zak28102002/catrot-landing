@@ -1,0 +1,64 @@
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 4.5vw, 36px);
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.disc {
+  width: clamp(116px, 27vw, 158px);
+  height: clamp(116px, 27vw, 158px);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+}
+
+.disc img {
+  width: 100%;
+  height: auto;
+}
+
+.good {
+  background: var(--mint-tint);
+}
+
+.worn {
+  background: #efe8dd;
+}
+
+.caption {
+  font-size: clamp(13px, 3.2vw, 14.5px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--brown-muted);
+}
+
+.arrow {
+  flex: none;
+  width: clamp(26px, 7vw, 44px);
+  height: auto;
+  color: var(--brown-faint);
+  margin-bottom: 26px;
+}
+
+@media (max-width: 340px) {
+  .arrow {
+    width: 22px;
+  }
+}

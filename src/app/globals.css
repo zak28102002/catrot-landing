@@ -1,0 +1,149 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   CATROT — design tokens
+   Warm cream, CATROT orange, dark brown, soft mint, pastel accents.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces */
+  --cream: #fdf7ed;
+  --cream-deep: #f8efe0;
+  --ivory: #fffcf6;
+
+  /* CATROT orange.
+     --orange is the brand colour and is used for graphics and rules only.
+     The two ink variants are the ones allowed to carry text: both clear
+     WCAG AA on cream (--orange-deep 3.9:1 for large bold display type,
+     --orange-ink 4.7:1 for everything else). */
+  --orange: #ff9f2e;
+  --orange-deep: #c2620b;
+  --orange-ink: #b45309;
+  --orange-tint: #ffeed6;
+
+  /* Ink */
+  --brown: #38271c;
+  --brown-soft: #5c473a; /* 8.1:1 on cream */
+  --brown-muted: #7d675a; /* 5.0:1 on cream — the lightest tone used for text */
+  --brown-faint: #b6a294; /* decorative only: rules, arrows, dots */
+
+  /* Pastels */
+  --mint: #a3dcc0;
+  --mint-tint: #e6f4ec;
+  --pink: #ffa9bd;
+  --pink-tint: #ffe4ea;
+
+  /* Lines & shadows — kept very light on purpose */
+  --hairline: rgba(56, 39, 28, 0.08);
+  --hairline-strong: rgba(56, 39, 28, 0.14);
+  --shadow-soft: 0 1px 2px rgba(56, 39, 28, 0.04), 0 6px 20px rgba(56, 39, 28, 0.05);
+  --shadow-lift: 0 2px 4px rgba(56, 39, 28, 0.05), 0 14px 34px rgba(56, 39, 28, 0.09);
+
+  /* Rhythm */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --gutter: clamp(20px, 5vw, 40px);
+  --measure: 34rem;
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--brown);
+  font-family: var(--font-nunito), "SF Pro Rounded", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  /* Mobile safe areas */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Focus: visible, rounded, brand-coloured, and never on mouse clicks. */
+:focus-visible {
+  outline: 3px solid var(--orange-ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--orange-tint);
+  color: var(--brown);
+}
+
+/* Skip link — keyboard users land here first. */
+.skipLink {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translate(-50%, -180%);
+  z-index: 100;
+  padding: 10px 18px;
+  background: var(--brown);
+  color: var(--ivory);
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 180ms var(--ease-out);
+}
+
+.skipLink:focus-visible {
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

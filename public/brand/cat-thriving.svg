@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360" role="img" aria-label="A bright, well-groomed CATROT cat with a wide smile">
+  <defs>
+    <clipPath id="thrivingHead"><circle cx="180" cy="196" r="126"/></clipPath>
+  </defs>
+
+  <!-- sparkles -->
+  <g fill="#8ECFAE">
+    <path d="M 60 74 l 7 18 l 18 7 l -18 7 l -7 18 l -7 -18 l -18 -7 l 18 -7 z"/>
+    <path d="M 308 128 l 5 13 l 13 5 l -13 5 l -5 13 l -5 -13 l -13 -5 l 13 -5 z"/>
+    <circle cx="298" cy="64" r="5"/>
+    <circle cx="46" cy="146" r="4"/>
+  </g>
+
+  <!-- ears, upright -->
+  <g stroke="#3B2A1E" stroke-width="11" stroke-linejoin="round">
+    <path d="M 82 128 C 84 56 96 22 124 22 C 150 22 170 48 186 74 Z" fill="#FFA82F"/>
+    <path d="M 278 128 C 276 56 264 22 236 22 C 210 22 190 48 174 74 Z" fill="#FFA82F"/>
+  </g>
+  <g fill="#FF9EB5">
+    <path d="M 106 112 C 108 66 116 42 130 42 C 144 42 164 60 178 76 Z"/>
+    <path d="M 254 112 C 252 66 244 42 230 42 C 216 42 196 60 182 76 Z"/>
+  </g>
+
+  <!-- head -->
+  <circle cx="180" cy="196" r="126" fill="#FFFBF2"/>
+  <g clip-path="url(#thrivingHead)" fill="#FFA82F">
+    <ellipse cx="294" cy="182" rx="106" ry="148" transform="rotate(6 294 182)"/>
+    <ellipse cx="142" cy="112" rx="44" ry="27" transform="rotate(-16 142 112)"/>
+  </g>
+  <circle cx="180" cy="196" r="126" fill="none" stroke="#3B2A1E" stroke-width="11"/>
+
+  <!-- whiskers -->
+  <g stroke="#3B2A1E" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M 26 178 q 38 -8 72 4"/>
+    <path d="M 24 218 q 36 4 68 16"/>
+    <path d="M 334 178 q -38 -8 -72 4"/>
+    <path d="M 336 218 q -36 4 -68 16"/>
+  </g>
+
+  <!-- eyes -->
+  <g fill="#3B2A1E">
+    <ellipse cx="130" cy="182" rx="30" ry="36"/>
+    <ellipse cx="230" cy="182" rx="30" ry="36"/>
+  </g>
+  <g fill="#FFFFFF">
+    <circle cx="120" cy="169" r="11"/>
+    <circle cx="141" cy="188" r="5.5"/>
+    <circle cx="220" cy="169" r="11"/>
+    <circle cx="241" cy="188" r="5.5"/>
+  </g>
+
+  <!-- blush -->
+  <g fill="#FFC9D6" opacity="0.85">
+    <ellipse cx="92" cy="234" rx="21" ry="13"/>
+    <ellipse cx="268" cy="234" rx="21" ry="13"/>
+  </g>
+
+  <!-- muzzle -->
+  <path d="M 152 242 q 0 52 28 52 q 28 0 28 -52 z" fill="#F2647F" stroke="#3B2A1E" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M 160 271 q 20 -11 40 0 q -5 20 -20 20 q -15 0 -20 -20 z" fill="#FF9EB5"/>
+  <path d="M 141 230 q 19 21 39 8 q 20 13 39 -8" fill="none" stroke="#3B2A1E" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 180 239 q -21 0 -23 -14 q 8 -8 23 -8 q 15 0 23 8 q -2 14 -23 14 z" fill="#FF9EB5" stroke="#3B2A1E" stroke-width="9" stroke-linejoin="round"/>
+</svg>

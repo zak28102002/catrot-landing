@@ -1,0 +1,92 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(253, 247, 237, 0.82);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid var(--hairline);
+  padding-top: env(safe-area-inset-top);
+}
+
+.inner {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+}
+
+.brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(56, 39, 28, 0.16);
+}
+
+.wordmark {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--brown);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 28px);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brown-soft);
+}
+
+.nav a {
+  border-radius: 8px;
+  transition: color 160ms var(--ease-out);
+}
+
+.nav a:hover {
+  color: var(--orange-ink);
+}
+
+.nav a[aria-current="page"] {
+  color: var(--orange-ink);
+}
+
+@media (max-width: 400px) {
+  .nav {
+    gap: 14px;
+    font-size: 14.5px;
+  }
+
+  .wordmark {
+    font-size: 17px;
+  }
+}
+
+/* Below this the wordmark and the links start to touch, so the mark carries
+   the brand on its own. The link keeps its aria-label, so nothing is lost. */
+@media (max-width: 359px) {
+  .wordmark {
+    display: none;
+  }
+
+  .brand img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav {
+    gap: 16px;
+  }
+}

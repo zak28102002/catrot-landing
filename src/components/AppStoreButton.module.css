@@ -1,0 +1,59 @@
+.badge {
+  display: inline-block;
+  border-radius: 9px;
+  /* Apple asks for clear space around the badge of at least 10% of its height. */
+  padding: 0;
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+  box-shadow: 0 2px 6px rgba(56, 39, 28, 0.12), 0 10px 24px rgba(56, 39, 28, 0.14);
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(56, 39, 28, 0.14), 0 16px 34px rgba(56, 39, 28, 0.18);
+}
+
+.badge:active {
+  transform: translateY(0);
+}
+
+.badge img {
+  display: block;
+  height: 56px;
+  width: auto;
+}
+
+@media (max-width: 480px) {
+  .badge img {
+    height: 50px;
+  }
+}
+
+.unconfigured {
+  cursor: not-allowed;
+  opacity: 0.45;
+  filter: grayscale(1);
+  box-shadow: none;
+}
+
+.unconfigured:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.devNote {
+  margin-top: 12px;
+  max-width: 30rem;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #9a3412;
+  background: #fff3e2;
+  border: 1px dashed #f0831a;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.devNote code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+}
