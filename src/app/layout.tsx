@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { nunito } from "./fonts";
 import { siteConfig } from "@/config/site";
-import "@/config/guard";
 import "./globals.css";
 
 export const metadata: Metadata = {

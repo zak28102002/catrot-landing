@@ -8,27 +8,31 @@ import { describeMissingConfig, isConfigComplete } from "./site";
  *   2. The declared data practices in `data-practices.ts` have been checked
  *      against the shipping app.
  *
- * In production, failing either one aborts the build. In development the site
- * still runs, and `<ConfigWarning />` says what is outstanding.
+ * This module is deliberately side-effect free. `next.config.ts` is the single
+ * enforcement point: it calls `readinessReport()` at the start of a production
+ * build and stops there, so the failure arrives before compilation rather than
+ * buried in a page-collection stack trace.
  *
- * This module is imported by the root layout, so the check runs for every
- * route that Next.js renders.
+ * In development nothing fires: the site runs and `<ConfigWarning />` says what
+ * is outstanding.
  */
 
 export const legalReviewComplete = dataPractices.verified;
 export const readyForProduction = isConfigComplete && legalReviewComplete;
 
-const isProductionBuild =
-  process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== "phase-development-server";
+/** The full, formatted explanation, or null when the site is ready to publish. */
+export function readinessReport(): string | null {
+  if (readyForProduction) return null;
 
-if (isProductionBuild && !readyForProduction) {
   const problems: string[] = [];
 
   if (!isConfigComplete) {
     problems.push(
       `Unconfigured deployment values:\n${describeMissingConfig()}\n` +
-        `      Set these in your Vercel project settings (or .env.local for a\n` +
-        `      local production build). See README.md → "Environment variables".`,
+        `      Set each of these in Vercel → your project → Settings →\n` +
+        `      Environment Variables, for both Production and Preview, then\n` +
+        `      redeploy. For a local production build, put them in .env.local.\n` +
+        `      See README.md → "Environment variables".`,
     );
   }
 
@@ -42,18 +46,16 @@ if (isProductionBuild && !readyForProduction) {
     );
   }
 
-  throw new Error(
-    [
-      "",
-      "──────────────────────────────────────────────────────────────────────",
-      " CATROT — production build blocked",
-      "──────────────────────────────────────────────────────────────────────",
-      "",
-      ...problems.map((problem, index) => `  ${index + 1}. ${problem}\n`),
-      " Publishing placeholder company details or unverified privacy claims",
-      " would be worse than not publishing at all, so the build stops here.",
-      "──────────────────────────────────────────────────────────────────────",
-      "",
-    ].join("\n"),
-  );
+  return [
+    "",
+    "──────────────────────────────────────────────────────────────────────",
+    " CATROT — production build blocked",
+    "──────────────────────────────────────────────────────────────────────",
+    "",
+    ...problems.map((problem, index) => `  ${index + 1}. ${problem}\n`),
+    " Publishing placeholder company details or unverified privacy claims",
+    " would be worse than not publishing at all, so the build stops here.",
+    "──────────────────────────────────────────────────────────────────────",
+    "",
+  ].join("\n");
 }

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { readinessReport } from "./src/config/guard";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -18,4 +19,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * Checked here, at the very start of a production build, so an unconfigured
+ * deployment fails with a readable message instead of a page-collection stack
+ * trace. Development is unaffected — the site runs and shows a warning bar.
+ */
+export default function config(phase: string): NextConfig {
+  if (phase === "phase-production-build") {
+    const report = readinessReport();
+    if (report) throw new Error(report);
+  }
+
+  return nextConfig;
+}
