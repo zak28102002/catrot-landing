@@ -20,8 +20,17 @@
 
 export const PLACEHOLDER_PREFIX = "REPLACE_WITH";
 
-/** The one value with a real, intentional default. */
+/** Values with real, intentional defaults, supplied by the app's publisher. */
 export const DEFAULT_SUPPORT_EMAIL = "catrotsupp@gmail.com";
+
+/**
+ * The publishing entity. Confirmed by the publisher as "Catrot".
+ *
+ * Override with LEGAL_COMPANY_NAME if the entity is ever registered under a
+ * fuller name (e.g. with a "Ltd", "SAS" or "GmbH" suffix) — the pages read it
+ * from there in preference to this default.
+ */
+export const DEFAULT_LEGAL_COMPANY_NAME = "Catrot";
 
 export type ConfigKey =
   | "NEXT_PUBLIC_APP_STORE_URL"
@@ -67,8 +76,7 @@ const specs: ConfigSpec[] = [
   {
     key: "LEGAL_COMPANY_NAME",
     raw: process.env.LEGAL_COMPANY_NAME,
-    consequence:
-      "The legal pages cannot name the publishing entity, and the footer falls back to “© CATROT”. Note that the GDPR expects a privacy policy to identify its controller, so this one matters before any real launch.",
+    consequence: `The legal pages and the footer use the default, ${DEFAULT_LEGAL_COMPANY_NAME}. Set this only if the entity is registered under a fuller name.`,
   },
   {
     key: "BUSINESS_ADDRESS",
@@ -131,8 +139,7 @@ export const siteConfig = {
 
   /** Absent until the App Store listing exists. */
   appStoreUrl: value("NEXT_PUBLIC_APP_STORE_URL"),
-  /** Absent until the publishing entity is configured. */
-  legalCompanyName: value("LEGAL_COMPANY_NAME"),
+  legalCompanyName: value("LEGAL_COMPANY_NAME") ?? DEFAULT_LEGAL_COMPANY_NAME,
   /** Absent until a postal address is configured. */
   businessAddress: value("BUSINESS_ADDRESS"),
   /** Absent until the governing jurisdiction is configured. */
@@ -142,16 +149,3 @@ export const siteConfig = {
   websiteUrl: resolveWebsiteUrl(),
   supportEmail: value("SUPPORT_EMAIL") ?? DEFAULT_SUPPORT_EMAIL,
 } as const;
-
-/**
- * How to refer to the publisher in running prose. Uses the registered entity
- * when it is configured, and otherwise a truthful description — never an
- * invented name.
- */
-export const publisher = siteConfig.legalCompanyName ?? "the publisher of CATROT";
-
-/**
- * The same idea in sentences that already name the app, where repeating
- * "CATROT" twice would read badly. Falls back to the first person.
- */
-export const publisherShort = siteConfig.legalCompanyName ?? "us";

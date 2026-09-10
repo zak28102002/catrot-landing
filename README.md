@@ -28,8 +28,8 @@ omission costs.
 | Variable | If unset |
 | --- | --- |
 | `NEXT_PUBLIC_APP_STORE_URL` | The App Store badge renders inert under "Coming soon to the App Store" instead of linking nowhere. **Set this as soon as the listing is live** — otherwise the site tells visitors the app is unreleased. |
-| `LEGAL_COMPANY_NAME` | The legal pages refer to "the publisher of CATROT" and the footer reads "© CATROT". Note the GDPR expects a privacy policy to identify its controller, so this one matters before a real launch. |
-| `BUSINESS_ADDRESS` | The postal contact line is omitted from both legal pages; email remains the only stated route. Shown only when the company name is set too. |
+| `LEGAL_COMPANY_NAME` | Defaults to **Catrot**, the publishing entity. Set this only if the entity is registered under a fuller name (a `Ltd`, `SAS` or `GmbH` suffix, say) — the legal pages and the footer read it from here in preference to the default. |
+| `BUSINESS_ADDRESS` | The postal contact line is omitted from both legal pages and email remains the only stated route. Worth adding before a real launch: the GDPR expects a privacy policy to give the controller's contact details, and a postal address is the usual way to satisfy that fully. |
 | `WEBSITE_URL` | Canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt` fall back to the deployment host Vercel provides — right for a preview, wrong once you have a custom domain. |
 | `SUPPORT_EMAIL` | Defaults to `catrotsupp@gmail.com`. |
 | `LEGAL_GOVERNING_LAW` | The Terms' governing-law clause falls back to "the law of the territory in which the publisher of CATROT is established" instead of naming a jurisdiction. It follows from where the entity is established, so it cannot be guessed. |
@@ -93,8 +93,8 @@ npm run dev                  # http://localhost:3000
 1. Import the repository. Vercel detects Next.js; no build settings to change.
 2. Deploy. It builds and serves with no environment variables at all.
 3. Add the variables from the table above to **Preview** and **Production** as
-   the real values become available — start with `NEXT_PUBLIC_APP_STORE_URL`
-   and `LEGAL_COMPANY_NAME`.
+   the real values become available — `NEXT_PUBLIC_APP_STORE_URL` first, since
+   until it is set the site tells visitors the app is not out yet.
 4. Point the domain at the project, and set `WEBSITE_URL` to match it exactly —
    canonical tags and Open Graph URLs are built from it, and until it is set
    they use the Vercel deployment host.

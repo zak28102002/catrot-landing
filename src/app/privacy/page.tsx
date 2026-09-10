@@ -37,23 +37,13 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          {siteConfig.legalCompanyName ? (
-            <>
-              CATROT is an iOS app published by{" "}
-              <strong>{siteConfig.legalCompanyName}</strong>
-              {siteConfig.businessAddress ? `, ${siteConfig.businessAddress}` : ""}
-              . In this policy, &ldquo;we&rdquo;, &ldquo;us&rdquo; and
-              &ldquo;our&rdquo; mean that company.
-            </>
-          ) : (
-            <>
-              CATROT is an iOS app. In this policy, &ldquo;we&rdquo;,
-              &ldquo;us&rdquo; and &ldquo;our&rdquo; mean the publisher of the
-              app, who can be reached using the contact details in section 19.
-            </>
-          )}{" "}
-          Under the EU and UK General Data Protection Regulation we are the
-          controller of the limited personal data described below.
+          CATROT is an iOS app published by{" "}
+          <strong>{siteConfig.legalCompanyName}</strong>
+          {siteConfig.businessAddress ? `, ${siteConfig.businessAddress}` : ""}. In
+          this policy, &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo;
+          mean that company. Under the EU and UK General Data Protection
+          Regulation we are the controller of the limited personal data described
+          below.
         </p>
         <p>
           This policy covers the CATROT iOS app and this website. CATROT is an
