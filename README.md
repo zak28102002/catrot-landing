@@ -16,73 +16,60 @@ route is statically prerendered.
 
 ---
 
-## ⚠️ Read this before deploying
+## Configuration
 
-Two gates must be cleared, and **a production build fails until both are**. This
-is deliberate: publishing placeholder company details or unverified privacy
-claims is worse than publishing nothing.
+The site deploys and runs with **nothing configured**. Every value below is
+optional: anything unset is left out of the page rather than published as a
+placeholder, because a Privacy Policy missing the company address is merely
+incomplete, while one that prints `[business address not configured]` is broken
+in public. `npm run dev` shows a bar listing what is still unset and what each
+omission costs.
 
-### 1. Environment variables
-
-| Variable | Required | What it is |
-| --- | --- | --- |
-| `NEXT_PUBLIC_APP_STORE_URL` | yes | Destination of the "Download on the App Store" button. Without it the badge renders inert, never as a broken link. |
-| `LEGAL_COMPANY_NAME` | yes | The registered legal entity, exactly as registered. Appears in the footer, the Privacy Policy and the Terms. |
-| `BUSINESS_ADDRESS` | yes | Postal contact address, on one line. |
-| `WEBSITE_URL` | yes | Canonical origin, no trailing slash. Drives canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt`. |
-| `SUPPORT_EMAIL` | defaulted | Support and privacy contact. Defaults to `catrotsupp@gmail.com`. |
-| `LEGAL_GOVERNING_LAW` | yes | Jurisdiction governing the Terms, phrased to complete "These terms are governed by ___" — e.g. `the laws of France`. It follows from where the entity is established and cannot be guessed. |
+| Variable | If unset |
+| --- | --- |
+| `NEXT_PUBLIC_APP_STORE_URL` | The App Store badge renders inert under "Coming soon to the App Store" instead of linking nowhere. **Set this as soon as the listing is live** — otherwise the site tells visitors the app is unreleased. |
+| `LEGAL_COMPANY_NAME` | The legal pages refer to "the publisher of CATROT" and the footer reads "© CATROT". Note the GDPR expects a privacy policy to identify its controller, so this one matters before a real launch. |
+| `BUSINESS_ADDRESS` | The postal contact line is omitted from both legal pages; email remains the only stated route. Shown only when the company name is set too. |
+| `WEBSITE_URL` | Canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt` fall back to the deployment host Vercel provides — right for a preview, wrong once you have a custom domain. |
+| `SUPPORT_EMAIL` | Defaults to `catrotsupp@gmail.com`. |
+| `LEGAL_GOVERNING_LAW` | The Terms' governing-law clause falls back to "the law of the territory in which the publisher of CATROT is established" instead of naming a jurisdiction. It follows from where the entity is established, so it cannot be guessed. |
 
 Copy `.env.example` to `.env.local` for development, and set the same keys in
 **Vercel → Project → Settings → Environment Variables** for Preview and
-Production.
-
-A value that is empty, or that still starts with `REPLACE_WITH`, counts as
-missing. In development the site runs anyway and shows a warning bar listing
-what is outstanding; in production the build stops.
+Production. A value that is empty, or that still starts with `REPLACE_WITH`,
+counts as unset.
 
 > **None of these are secrets.** Every one of them is rendered on the page.
 > The site has no server-side logic, no API routes and no database, so there is
 > nothing here that could leak a credential — and no credential should ever be
 > added to this project.
 
-### 2. Verify the declared data practices
+## ⚠️ The one thing that does block a build
 
 **`src/config/data-practices.ts` is the single source of truth for `/privacy`.**
 The Privacy Policy contains no free-floating claims: every factual statement on
 that page is rendered from a value in that file.
 
-That file was written **without access to the CATROT iOS source code**. Its
-values are therefore starting points, not findings, and each carries a `VERIFY:`
-comment naming exactly what to check. Among the things it currently asserts, and
-that must be confirmed or corrected:
+It is currently marked `verified: true` (10 September 2026), on the publisher's
+confirmation that:
 
-- that Screen Time and Device Activity data never leaves the device;
-- that the app operates no backend of its own;
-- that no analytics SDK is linked into the app;
-- that RevenueCat is the subscription provider, and which third parties receive
-  what;
-- that no account is required, and that iCloud sync is off;
-- whether the configured products actually offer a free trial (`null` means the
-  Terms say nothing about trials, which is the safe default);
-- whether the CCPA applies to the business — the policy deliberately makes no
-  claim about the statutory thresholds.
+- Screen Time and Device Activity data never leaves the device;
+- the app operates no backend of its own;
+- no analytics SDK is linked into the app;
+- RevenueCat is the subscription provider;
+- no account is required, and iCloud sync is off;
+- no free trial is asserted (`freeTrial: null` means the Terms say nothing
+  about trials, which is the safe default);
+- no claim is made about whether the CCPA applies — the policy deliberately
+  stays silent on the statutory thresholds.
 
-Work through the file against the shipping build, the Xcode project's package
-dependencies and `Package.resolved`, then set:
-
-```ts
-verified: true,
-lastVerified: "YYYY-MM-DD",
-```
-
-Until then, `/privacy` and `/terms` carry a "Draft — not yet published" banner
-and the production build refuses to run.
+**Set `verified: false` again whenever the app changes in a way that touches any
+of these.** A production build then stops, with a message naming what to
+re-check, until the declarations match the app again. That is the only condition
+that fails a build.
 
 > These documents are a **drafting aid, not legal advice.** Have them reviewed by
 > a qualified lawyer before publication.
-
----
 
 ## Local development
 
@@ -95,7 +82,7 @@ npm run dev                  # http://localhost:3000
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Development server |
-| `npm run build` | Production build (fails if either gate above is unmet) |
+| `npm run build` | Production build (fails only if the data practices are unverified) |
 | `npm run start` | Serve the production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
@@ -104,10 +91,13 @@ npm run dev                  # http://localhost:3000
 ## Deploying to Vercel
 
 1. Import the repository. Vercel detects Next.js; no build settings to change.
-2. Add every variable from the table above to **Preview** and **Production**.
-3. Deploy. If a variable is missing, the build fails with a message naming it.
-4. Point the domain at the project, and make sure `WEBSITE_URL` matches it
-   exactly — canonical tags and Open Graph URLs are built from it.
+2. Deploy. It builds and serves with no environment variables at all.
+3. Add the variables from the table above to **Preview** and **Production** as
+   the real values become available — start with `NEXT_PUBLIC_APP_STORE_URL`
+   and `LEGAL_COMPANY_NAME`.
+4. Point the domain at the project, and set `WEBSITE_URL` to match it exactly —
+   canonical tags and Open Graph URLs are built from it, and until it is set
+   they use the Vercel deployment host.
 
 ## Project layout
 
@@ -119,7 +109,7 @@ public/
   brand/cat-worn.svg                     mascot, tired and unkempt
 src/
   app/
-    layout.tsx          fonts, metadata, the readiness guard
+    layout.tsx          fonts and metadata
     page.tsx            landing page
     privacy/page.tsx    Privacy Policy — rendered from data-practices.ts
     terms/page.tsx      Terms & Conditions
@@ -130,9 +120,9 @@ src/
     SiteHeader  SiteFooter  AppStoreButton  SupportLink
     CatMoodStrip  LegalPage  ConfigWarning
   config/
-    site.ts             environment values, and what is missing
-    data-practices.ts   ← the file to verify before publishing
-    guard.ts            blocks a production build until both gates pass
+    site.ts             environment values, and how each degrades when unset
+    data-practices.ts   ← the source of truth for /privacy
+    guard.ts            blocks a production build while /privacy is unverified
   fonts/                Nunito (SIL OFL 1.1), self-hosted
 ```
 

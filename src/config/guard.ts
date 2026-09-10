@@ -1,50 +1,27 @@
 import { dataPractices } from "./data-practices";
-import { describeMissingConfig, isConfigComplete } from "./site";
 
 /**
- * Two things must be true before this site may be served to the public:
+ * One thing must be true before this site may be served to the public: the
+ * declared data practices in `data-practices.ts` have been checked against the
+ * shipping app. `/privacy` is generated from that file, so publishing it
+ * unverified would mean publishing claims nobody has confirmed.
  *
- *   1. Every deployment value is configured (no `REPLACE_WITH_…` left).
- *   2. The declared data practices in `data-practices.ts` have been checked
- *      against the shipping app.
+ * `next.config.ts` is the single enforcement point — it calls
+ * `readinessReport()` at the start of a production build, so a failure arrives
+ * before compilation rather than buried in a page-collection stack trace. This
+ * module is deliberately side-effect free.
  *
- * This module is deliberately side-effect free. `next.config.ts` is the single
- * enforcement point: it calls `readinessReport()` at the start of a production
- * build and stops there, so the failure arrives before compilation rather than
- * buried in a page-collection stack trace.
- *
- * In development nothing fires: the site runs and `<ConfigWarning />` says what
- * is outstanding.
+ * Deployment values (company name, address, App Store URL and so on) do NOT
+ * block a build. They are optional by design: anything unset is simply left
+ * out of the page, never printed as a placeholder, and `<ConfigWarning />`
+ * lists what is outstanding in development.
  */
 
 export const legalReviewComplete = dataPractices.verified;
-export const readyForProduction = isConfigComplete && legalReviewComplete;
 
-/** The full, formatted explanation, or null when the site is ready to publish. */
+/** The formatted explanation, or null when the site is safe to publish. */
 export function readinessReport(): string | null {
-  if (readyForProduction) return null;
-
-  const problems: string[] = [];
-
-  if (!isConfigComplete) {
-    problems.push(
-      `Unconfigured deployment values:\n${describeMissingConfig()}\n` +
-        `      Set each of these in Vercel → your project → Settings →\n` +
-        `      Environment Variables, for both Production and Preview, then\n` +
-        `      redeploy. For a local production build, put them in .env.local.\n` +
-        `      See README.md → "Environment variables".`,
-    );
-  }
-
-  if (!legalReviewComplete) {
-    problems.push(
-      `The declared data practices have not been verified.\n` +
-        `      /privacy is generated from src/config/data-practices.ts. That file\n` +
-        `      was drafted without access to the CATROT iOS source, so every entry\n` +
-        `      is marked "VERIFY:". Check each one against the shipping app, correct\n` +
-        `      the file, then set \`verified: true\` and fill in \`lastVerified\`.`,
-    );
-  }
+  if (legalReviewComplete) return null;
 
   return [
     "",
@@ -52,9 +29,15 @@ export function readinessReport(): string | null {
     " CATROT — production build blocked",
     "──────────────────────────────────────────────────────────────────────",
     "",
-    ...problems.map((problem, index) => `  ${index + 1}. ${problem}\n`),
-    " Publishing placeholder company details or unverified privacy claims",
-    " would be worse than not publishing at all, so the build stops here.",
+    "  The declared data practices have not been verified.",
+    "",
+    "  /privacy is generated from src/config/data-practices.ts. Every entry in",
+    "  that file carries a VERIFY: note describing what to check against the",
+    "  shipping iOS app. Work through them, correct anything that differs, then",
+    "  set `verified: true` and fill in `lastVerified`.",
+    "",
+    "  Publishing unverified privacy claims would be worse than not publishing",
+    "  at all, so the build stops here.",
     "──────────────────────────────────────────────────────────────────────",
     "",
   ].join("\n");

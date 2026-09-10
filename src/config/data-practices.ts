@@ -57,13 +57,18 @@ export type ThirdParty = {
 
 export const dataPractices = {
   /**
-   * VERIFY: flip to true only after every entry below has been checked against
-   * the shipping build of the app.
+   * Confirmed by the app's publisher on the date below: Screen Time data never
+   * leaves the device, there is no backend of our own, no analytics SDK is
+   * linked, RevenueCat handles subscriptions, and no account is required.
+   *
+   * Set this back to false whenever the app changes in a way that touches any
+   * declaration in this file — a production build will then stop until the
+   * entries have been re-checked.
    */
-  verified: false,
+  verified: true,
 
   /** ISO date the verification above was performed. */
-  lastVerified: null as string | null,
+  lastVerified: "2026-09-10" as string | null,
 
   /** Date shown as "Last updated" on /privacy and /terms. */
   lastUpdated: "2026-09-10",

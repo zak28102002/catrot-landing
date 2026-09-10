@@ -3,15 +3,15 @@ import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 import { SupportLink } from "@/components/SupportLink";
 import { dataPractices as dp } from "@/config/data-practices";
-import { siteConfig } from "@/config/site";
+import { publisher, publisherShort, siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: `The agreement between you and ${siteConfig.legalCompanyName} for the use of ${siteConfig.name}.`,
+  description: `The agreement between you and ${publisherShort} for the use of ${siteConfig.name}.`,
   alternates: { canonical: "/terms" },
   openGraph: {
     title: `${siteConfig.name} Terms & Conditions`,
-    description: `The agreement between you and ${siteConfig.legalCompanyName} for the use of ${siteConfig.name}.`,
+    description: `The agreement between you and ${publisherShort} for the use of ${siteConfig.name}.`,
     url: `${siteConfig.websiteUrl}/terms`,
   },
 };
@@ -26,10 +26,17 @@ const sections: LegalSection[] = [
       <>
         <p>
           These Terms &amp; Conditions form an agreement between you and{" "}
-          <strong>{siteConfig.legalCompanyName}</strong>,{" "}
-          {siteConfig.businessAddress} (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By
-          downloading, installing or using CATROT, you accept them. If you do not
-          accept them, please do not use the app.
+          {siteConfig.legalCompanyName ? (
+            <>
+              <strong>{siteConfig.legalCompanyName}</strong>
+              {siteConfig.businessAddress ? `, ${siteConfig.businessAddress}` : ""}
+            </>
+          ) : (
+            <>the publisher of CATROT</>
+          )}{" "}
+          (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By downloading, installing or
+          using CATROT, you accept them. If you do not accept them, please do not
+          use the app.
         </p>
         <p>
           Our <Link href="/privacy">Privacy Policy</Link> is part of this
@@ -394,8 +401,8 @@ const sections: LegalSection[] = [
       <>
         <p>
           CATROT — its software, name, logo, the cat character, illustrations,
-          copy and design — belongs to {siteConfig.legalCompanyName} or its
-          licensors, and is protected by copyright, trade mark and other laws.
+          copy and design — belongs to {publisher} or its licensors, and is
+          protected by copyright, trade mark and other laws.
           Nothing in these terms transfers ownership to you.
         </p>
         <p>
@@ -499,8 +506,8 @@ const sections: LegalSection[] = [
     title: "Indemnification",
     content: (
       <p>
-        You agree to indemnify and hold harmless {siteConfig.legalCompanyName}{" "}
-        and its officers, employees and agents from any claim, liability, loss or
+        You agree to indemnify and hold harmless {publisher} and its officers,
+        employees and agents from any claim, liability, loss or
         expense (including reasonable legal fees) arising out of your misuse of
         CATROT, your breach of these terms, or your violation of the law or of
         anyone else&apos;s rights. This does not apply to the extent the claim
@@ -547,9 +554,20 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          These terms are governed by {siteConfig.governingLaw}, without regard
-          to conflict-of-law rules. Disputes will be subject to the jurisdiction
-          of the competent courts of that territory.
+          {siteConfig.governingLaw ? (
+            <>
+              These terms are governed by {siteConfig.governingLaw}, without
+              regard to conflict-of-law rules. Disputes will be subject to the
+              jurisdiction of the competent courts of that territory.
+            </>
+          ) : (
+            <>
+              These terms are governed by the law of the territory in which{" "}
+              {publisher} is established, without regard to conflict-of-law
+              rules, and disputes will be subject to the jurisdiction of the
+              competent courts of that territory.
+            </>
+          )}
         </p>
         <p>
           If you are a consumer resident in the European Union, the United
@@ -570,10 +588,12 @@ const sections: LegalSection[] = [
           <li>
             <strong>Email</strong> — <SupportLink subject={SUBJECT} />
           </li>
-          <li>
-            <strong>Post</strong> — {siteConfig.legalCompanyName},{" "}
-            {siteConfig.businessAddress}
-          </li>
+          {siteConfig.legalCompanyName && siteConfig.businessAddress ? (
+            <li>
+              <strong>Post</strong> — {siteConfig.legalCompanyName},{" "}
+              {siteConfig.businessAddress}
+            </li>
+          ) : null}
         </ul>
       </>
     ),
@@ -588,8 +608,7 @@ export default function TermsPage() {
       current="terms"
       intro={
         <p>
-          The agreement between you and {siteConfig.legalCompanyName} for using
-          CATROT. We have kept it as plain as we can, and the parts that matter
+          The agreement between you and {publisherShort} for using CATROT. We have kept it as plain as we can, and the parts that matter
           most — subscriptions, cancellation and what the app can and cannot
           promise — are in sections 7 to 11 and 16.
         </p>

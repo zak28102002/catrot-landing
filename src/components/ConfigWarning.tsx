@@ -1,15 +1,15 @@
 import { legalReviewComplete } from "@/config/guard";
-import { missingConfigKeys } from "@/config/site";
+import { missingConfig } from "@/config/site";
 import styles from "./ConfigWarning.module.css";
 
 /**
- * Development-only banner listing everything that must be settled before this
- * site may go live. In production it renders nothing — a production build with
- * anything outstanding does not get built at all (src/config/guard.ts).
+ * Development-only banner listing what is still unset and what each omission
+ * costs. None of it blocks a build: unset values are left out of the rendered
+ * page rather than shown as placeholders. It renders nothing in production.
  */
 export function ConfigWarning() {
   if (process.env.NODE_ENV === "production") return null;
-  if (missingConfigKeys.length === 0 && legalReviewComplete) return null;
+  if (missingConfig.length === 0 && legalReviewComplete) return null;
 
   return (
     <div className={styles.bar} role="status">
@@ -18,32 +18,24 @@ export function ConfigWarning() {
           ⚠
         </span>
         <div>
-          <span className={styles.title}>Not ready to publish.</span>
-          This notice is shown in development only; a production build fails
-          until each item is resolved.
+          <span className={styles.title}>Not fully configured.</span>
+          Shown in development only. The site still builds and deploys —
+          anything unset is left out of the page rather than published as a
+          placeholder.
           <ul className={styles.list}>
-            {missingConfigKeys.length > 0 ? (
-              <li>
-                Unset environment{" "}
-                {missingConfigKeys.length === 1 ? "variable" : "variables"}:{" "}
-                {missingConfigKeys.map((key, index) => (
-                  <span key={key}>
-                    {index > 0 ? ", " : ""}
-                    <code>{key}</code>
-                  </span>
-                ))}
-                .
-              </li>
-            ) : null}
             {!legalReviewComplete ? (
               <li>
-                The Privacy Policy is generated from{" "}
-                <code>src/config/data-practices.ts</code>, which has not been
-                verified against the CATROT iOS app. Check every{" "}
-                <code>VERIFY:</code> note in that file, then set{" "}
-                <code>verified: true</code>.
+                <strong>Blocks the production build.</strong> The Privacy Policy
+                is generated from <code>src/config/data-practices.ts</code>,
+                which is not marked verified. Check every <code>VERIFY:</code>{" "}
+                note in that file, then set <code>verified: true</code>.
               </li>
             ) : null}
+            {missingConfig.map((entry) => (
+              <li key={entry.key}>
+                <code>{entry.key}</code> — {entry.consequence}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

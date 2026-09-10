@@ -9,9 +9,9 @@ import styles from "./AppStoreButton.module.css";
  * /badges/download-on-the-app-store.svg. It is not recreated by hand, and it is
  * not restyled beyond the surrounding shadow, per Apple's identity guidelines.
  *
- * With NEXT_PUBLIC_APP_STORE_URL unset the badge renders inert instead of
- * linking nowhere, and a development-only note explains what to configure.
- * (A production build cannot reach this state — see src/config/guard.ts.)
+ * With NEXT_PUBLIC_APP_STORE_URL unset there is nowhere to send anyone, so the
+ * badge renders inert under a "coming soon" caption rather than as a link that
+ * goes nowhere. In development an extra note names the variable to set.
  */
 export function AppStoreButton() {
   const badge = (
@@ -27,7 +27,7 @@ export function AppStoreButton() {
 
   if (!siteConfig.appStoreUrl) {
     return (
-      <div>
+      <div className={styles.pending}>
         <span
           className={`${styles.badge} ${styles.unconfigured}`}
           aria-disabled="true"
@@ -35,12 +35,13 @@ export function AppStoreButton() {
         >
           {badge}
         </span>
+        <p className={styles.pendingNote}>Coming soon to the App Store.</p>
         {process.env.NODE_ENV !== "production" ? (
           <p className={styles.devNote}>
             <strong>Not configured.</strong> Set{" "}
             <code>NEXT_PUBLIC_APP_STORE_URL</code> to the app&apos;s App Store
-            listing. Until then this badge is deliberately inert rather than a
-            broken link.
+            listing and this becomes a working link. Until then the badge is
+            deliberately inert rather than broken.
           </p>
         ) : null}
       </div>

@@ -1,22 +1,17 @@
 import Link from "next/link";
-import { isConfigComplete, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { SupportLink } from "./SupportLink";
 import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
-  const companyConfigured = isConfigComplete || !siteConfig.legalCompanyName.startsWith("[");
 
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
+        {/* Falls back to the product name — never an invented entity. */}
         <p className={styles.copyright}>
-          © {year}{" "}
-          {companyConfigured ? (
-            siteConfig.legalCompanyName
-          ) : (
-            <span className={styles.unset}>{siteConfig.legalCompanyName}</span>
-          )}
+          © {year} {siteConfig.legalCompanyName ?? siteConfig.name}
         </p>
 
         <nav className={styles.links} aria-label="Legal and support">
